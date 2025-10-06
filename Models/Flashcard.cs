@@ -1,70 +1,70 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ProductivIOBackend.Models;
 
-namespace ProductivIOBackend.Models
+public class Flashcards
 {
-    public class Flashcards
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+    public Guid UserID { get; set; }
 
-        [ForeignKey("UserID")]
-        public required User User { get; set; } 
+    [ForeignKey("UserID")]
+    public User? User { get; set; }
 
-        [Required(ErrorMessage = "Title is required.")]
-        public string Title { get; set; } = string.Empty;
+    [Required]
+    public string Title { get; set; } = string.Empty;
 
-        public string? Description { get; set; }
+    public string? Description { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public ICollection<FlashcardQuestion> FlashcardQuestions { get; set; } = new List<FlashcardQuestion>();
-    }
+    public DateTime? UpdatedAt { get; set; }
 
-    public class FlashcardQuestion
-    {
-        [Key]
-        public int Id { get; set; }
+    public ICollection<FlashcardQuestion> FlashcardQuestions { get; set; } = new List<FlashcardQuestion>();
+}
 
-        public int FlashcardId { get; set; }
+public class FlashcardQuestion
+{
+    [Key]
+    public int Id { get; set; }
 
-        [ForeignKey("FlashcardId")]
-        public required Flashcards Flashcard { get; set; }
+    public int FlashcardId { get; set; }
 
-        [Required(ErrorMessage = "Question is required.")]
-        public string Question { get; set; } = string.Empty;
+    [ForeignKey("FlashcardId")]
+    public Flashcards? Flashcard { get; set; }
 
-        public string? Hint { get; set; }
-        
+    [Required]
+    public string Question { get; set; } = string.Empty;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public string? Hint { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public ICollection<FlashcardAnswer> Answers { get; set; } = new List<FlashcardAnswer>();
-    }
+    public DateTime? UpdatedAt { get; set; }
 
-    public class FlashcardAnswer
-    {
-        [Key]
-        public int Id { get; set; }
+    public ICollection<FlashcardAnswer> Answers { get; set; } = new List<FlashcardAnswer>();
+}
 
-        public int QuestionId { get; set; }
+public class FlashcardAnswer
+{
+    [Key]
+    public int Id { get; set; }
 
-        [ForeignKey("QuestionId")]
-        public required FlashcardQuestion FlashcardQuestion { get; set; }
+    public int QuestionId { get; set; }
 
-        [Required(ErrorMessage = "Answer is required.")]
-        public string Answer { get; set; } = string.Empty;
+    [ForeignKey("QuestionId")]
+    public FlashcardQuestion? FlashcardQuestion { get; set; } 
 
-        public bool IsCorrect { get; set; } = false;
+    [Required]
+    public string Answer { get; set; } = string.Empty;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public bool IsCorrect { get; set; } = false;
 
-    }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public DateTime? UpdatedAt { get; set; }
 }

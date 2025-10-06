@@ -6,9 +6,9 @@ namespace ProductivIOBackend.Models
     public class Pomodoro
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+        public Guid UserID { get; set; }
 
         [ForeignKey("UserID")]
         public required User User { get; set; }
@@ -24,6 +24,7 @@ namespace ProductivIOBackend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }

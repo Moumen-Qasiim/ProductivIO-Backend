@@ -3,6 +3,7 @@ using ProductivIOBackend.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProductivIOBackend.Controllers
 {

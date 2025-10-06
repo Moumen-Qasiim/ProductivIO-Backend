@@ -1,14 +1,14 @@
-using ProductivIOBackend.DTOs;
+using ProductivIOBackend.DTOs.Tasks;
 using ProductivIOBackend.Models;
 
 namespace ProductivIOBackend.Repositories.Interfaces
 {
     public interface ITaskRepository
     {
-        Task<List<Tasks>> GetAllTasksAsync(int userId);
-        Task<Tasks?> GetTaskAsync(int Id, int userId);
-        Task<Tasks?> UpdateTaskAsync(Tasks task);
-        Task<Tasks?> AddTaskAsync(Tasks task);
+        Task<List<TaskDto>> GetAllTasksAsync(int userId);
+        Task<TaskDto?> GetTaskAsync(int Id, int userId);
+        Task<TaskDto?> UpdateTaskAsync(TaskDto task);
+        Task<TaskDto?> AddTaskAsync(TaskDto task);
         Task<bool> DeleteTaskAsync(int Id, int userId);
     }
 }

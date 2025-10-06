@@ -29,6 +29,7 @@ namespace ProductivIOBackend.Controllers
         }
 
         // POST: api/Auth/login
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
@@ -48,6 +49,7 @@ namespace ProductivIOBackend.Controllers
 
 
         // POST: api/Auth/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {

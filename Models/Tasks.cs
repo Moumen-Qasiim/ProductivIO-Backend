@@ -6,9 +6,9 @@ namespace ProductivIOBackend.Models
     public class Tasks
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+        public Guid UserID { get; set; }
 
         [ForeignKey("UserID")]
         public required User User { get; set; }
@@ -24,6 +24,8 @@ namespace ProductivIOBackend.Models
 
         [Required(ErrorMessage = "Please set task status.")]
         public string Status { get; set; } = string.Empty;
+
+        public DateTime? DueDate { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;

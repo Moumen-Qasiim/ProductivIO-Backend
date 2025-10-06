@@ -6,22 +6,22 @@ namespace ProductivIOBackend.Models
     public class Quizzes
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+        public Guid UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public required User User { get; set; }
+        public User? User { get; set; }
 
         [Required(ErrorMessage = "Title is required.")]
         public string Title { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
-        public int Score { get; set; } = 0;
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        public DateTime? UpdatedAt { get; set; }
 
         public ICollection<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
     }
@@ -34,12 +34,10 @@ namespace ProductivIOBackend.Models
         public int QuizID { get; set; }
 
         [ForeignKey("QuizID")]
-        public required Quizzes Quiz { get; set; }
+        public Quizzes? Quiz { get; set; }
 
         [Required(ErrorMessage = "Question is required.")]
         public string Question { get; set; } = string.Empty;
-
-        public bool IsCorrect { get; set; } = false;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -55,11 +53,11 @@ namespace ProductivIOBackend.Models
         public int Id { get; set; }
 
         public int QuestionId { get; set; }
-        
-        [ForeignKey("QuestionId")]
-        public required QuizQuestion QuizQuestion { get; set; } 
 
-        [Required(ErrorMessage = "Answer is required.")] 
+        [ForeignKey("QuestionId")]
+        public QuizQuestion? QuizQuestion { get; set; }
+
+        [Required(ErrorMessage = "Answer is required.")]
         public string Answer { get; set; } = string.Empty;
 
         public bool IsCorrect { get; set; } = false;
@@ -67,6 +65,7 @@ namespace ProductivIOBackend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public DateTime? UpdatedAt { get; set; }
     }
 
 }

@@ -6,10 +6,14 @@ namespace ProductivIOBackend.Repositories.Interfaces
 {
     public interface INoteRepository
     {
-        Task<List<NoteDto>> GetAllNotesAsync(int userId);
-        Task<NoteDto?> GetNoteAsync(int Id, int userId);
+        Task<List<NoteDto>> GetAllNotesAsync(Guid userId);
+    
+        Task<NoteDto?> GetNoteAsync(Guid id, Guid userId);
+        
         Task<NoteDto?> UpdateNoteAsync(NoteDto note);
+        
         Task<NoteDto?> AddNoteAsync(NoteDto note);
-        Task<bool> DeleteNoteAsync(int Id, int userId);
+        
+        Task<bool> DeleteNoteAsync(Guid id, Guid userId);
     }
 }

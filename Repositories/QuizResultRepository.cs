@@ -25,7 +25,7 @@ namespace ProductivIOBackend.Repositories
                 Score = resultDto.Score,
                 TotalQuestions = resultDto.TotalQuestions,
                 CorrectAnswers = resultDto.CorrectAnswers,
-                TakenAt = resultDto.TakenAt,
+                CreatedAt = resultDto.TakenAt,
                 ResultAnswers = resultDto.Answers.Select(a => new Models.QuizResultAnswer
                 {
                     QuestionId = a.QuestionId,
@@ -43,12 +43,12 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get all results for a user
-        public async Task<List<QuizResultDto>> GetResultsByUserAsync(int userId)
+        public async Task<List<QuizResultDto>> GetResultsByUserAsync(Guid userId)
         {
             var results = await _db.QuizResults
                 .Include(r => r.ResultAnswers)
                 .Where(r => r.UserId == userId)
-                .OrderByDescending(r => r.TakenAt)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
 
             return results.Select(r => new QuizResultDto
@@ -59,7 +59,7 @@ namespace ProductivIOBackend.Repositories
                 Score = r.Score,
                 TotalQuestions = r.TotalQuestions,
                 CorrectAnswers = r.CorrectAnswers,
-                TakenAt = r.TakenAt,
+                TakenAt = r.CreatedAt,
                 Answers = r.ResultAnswers.Select(a => new QuizResultAnswerDto
                 {
                     QuestionId = a.QuestionId,
@@ -70,7 +70,7 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get a single result by ID for a user
-        public async Task<QuizResultDto?> GetResultByIdAsync(int resultId, int userId)
+        public async Task<QuizResultDto?> GetResultByIdAsync(Guid resultId, Guid userId)
         {
             var result = await _db.QuizResults
                 .Include(r => r.ResultAnswers)
@@ -86,7 +86,7 @@ namespace ProductivIOBackend.Repositories
                 Score = result.Score,
                 TotalQuestions = result.TotalQuestions,
                 CorrectAnswers = result.CorrectAnswers,
-                TakenAt = result.TakenAt,
+                TakenAt = result.CreatedAt,
                 Answers = result.ResultAnswers.Select(a => new QuizResultAnswerDto
                 {
                     QuestionId = a.QuestionId,

@@ -17,17 +17,17 @@ namespace ProductivIOBackend.Repositories
 
 
         // FLASHCARDS 
-        public async Task<List<FlashcardsDto>> GetAllFlashcardsAsync(int userId)
+        public async Task<List<FlashcardsDto>> GetAllFlashcardsAsync(Guid UserId)
         {
             var flashcards = await _db.Flashcards
-                .Where(f => f.UserID == userId)
+                .Where(f => f.UserId == UserId)
                 .OrderByDescending(f => f.CreatedAt)
                 .ToListAsync();
 
             return flashcards.Select(f => new FlashcardsDto
             {
                 Id = f.Id,
-                UserID = f.UserID,
+                UserId = f.UserId,
                 Title = f.Title,
                 Description = f.Description,
                 CreatedAt = f.CreatedAt,
@@ -35,17 +35,17 @@ namespace ProductivIOBackend.Repositories
             }).ToList();
         }
 
-        public async Task<FlashcardsDto?> GetFlashcardAsync(int id, int userId)
+        public async Task<FlashcardsDto?> GetFlashcardAsync(Guid id, Guid UserId)
         {
             var f = await _db.Flashcards
-                .FirstOrDefaultAsync(fc => fc.Id == id && fc.UserID == userId);
+                .FirstOrDefaultAsync(fc => fc.Id == id && fc.UserId == UserId);
 
             if (f == null) return null;
 
             return new FlashcardsDto
             {
                 Id = f.Id,
-                UserID = f.UserID,
+                UserId = f.UserId,
                 Title = f.Title,
                 Description = f.Description,
                 CreatedAt = f.CreatedAt,
@@ -57,7 +57,7 @@ namespace ProductivIOBackend.Repositories
         {
             var entity = new Flashcards
             {
-                UserID = dto.UserID,
+                UserId = dto.UserId,
                 Title = dto.Title,
                 Description = dto.Description,
                 CreatedAt = DateTime.Now
@@ -74,7 +74,7 @@ namespace ProductivIOBackend.Repositories
         public async Task<FlashcardsDto?> UpdateFlashcardAsync(FlashcardsDto dto)
         {
             var existing = await _db.Flashcards
-                .FirstOrDefaultAsync(f => f.Id == dto.Id && f.UserID == dto.UserID);
+                .FirstOrDefaultAsync(f => f.Id == dto.Id && f.UserId == dto.UserId);
 
             if (existing == null) return null;
 
@@ -88,12 +88,12 @@ namespace ProductivIOBackend.Repositories
             return dto;
         }
 
-        public async Task<bool> DeleteFlashcardAsync(int id, int userId)
+        public async Task<bool> DeleteFlashcardAsync(Guid id, Guid UserId)
         {
             var flashcard = await _db.Flashcards
                 .Include(f => f.FlashcardQuestions)
                     .ThenInclude(q => q.Answers)
-                .FirstOrDefaultAsync(f => f.Id == id && f.UserID == userId);
+                .FirstOrDefaultAsync(f => f.Id == id && f.UserId == UserId);
 
             if (flashcard == null) return false;
 
@@ -105,7 +105,7 @@ namespace ProductivIOBackend.Repositories
 
         // QUESTIONS
 
-        public async Task<FlashcardQuestionDto?> AddQuestionAsync(int flashcardId, FlashcardQuestionDto dto)
+        public async Task<FlashcardQuestionDto?> AddQuestionAsync(Guid flashcardId, FlashcardQuestionDto dto)
         {
             var flashcard = await _db.Flashcards.FindAsync(flashcardId);
             if (flashcard == null) return null;
@@ -142,7 +142,7 @@ namespace ProductivIOBackend.Repositories
             return dto;
         }
 
-        public async Task<bool> DeleteQuestionAsync(int questionId)
+        public async Task<bool> DeleteQuestionAsync(Guid questionId)
         {
             var question = await _db.FlashcardQuestions
                 .Include(q => q.Answers)
@@ -158,7 +158,7 @@ namespace ProductivIOBackend.Repositories
 
         //  ANSWERS
 
-        public async Task<FlashcardAnswerDto?> AddAnswerAsync(int questionId, FlashcardAnswerDto dto)
+        public async Task<FlashcardAnswerDto?> AddAnswerAsync(Guid questionId, FlashcardAnswerDto dto)
         {
             var question = await _db.FlashcardQuestions.FindAsync(questionId);
             if (question == null) return null;
@@ -195,7 +195,7 @@ namespace ProductivIOBackend.Repositories
             return dto;
         }
 
-        public async Task<bool> DeleteAnswerAsync(int answerId)
+        public async Task<bool> DeleteAnswerAsync(Guid answerId)
         {
             var answer = await _db.FlashcardAnswers.FindAsync(answerId);
             if (answer == null) return false;

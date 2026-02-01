@@ -16,24 +16,24 @@ namespace ProductivIOBackend.Services
         }
 
 
-        public async Task<IEnumerable<NoteDto>> GetAll(int userId)
+        public async Task<IEnumerable<NoteDto>> GetAll(Guid   UserId)
         {
-            var note = await _noteRepository.GetAllNotesAsync(userId);
+            var note = await _noteRepository.GetAllNotesAsync(UserId);
 
             return note.Select(t => new NoteDto
             {
                 Id = t.Id,
                 Title = t.Title,
                 Content = t.Content,
-                UserID = t.UserID,
+                UserId = t.UserId,
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
             });
         }
 
-        public async Task<NoteDto?> Get(int id, int userId)
+        public async Task<NoteDto?> Get(Guid   id, Guid   UserId)
         {
-            var note = await _noteRepository.GetNoteAsync(id, userId);
+            var note = await _noteRepository.GetNoteAsync(id, UserId);
             if (note == null) return null;
 
             return new NoteDto
@@ -41,7 +41,7 @@ namespace ProductivIOBackend.Services
                 Id = note.Id,
                 Title = note.Title,
                 Content = note.Content,
-                UserID = note.UserID,
+                UserId = note.UserId,
                 CreatedAt = note.CreatedAt,
                 UpdatedAt = note.UpdatedAt
             };
@@ -57,13 +57,13 @@ namespace ProductivIOBackend.Services
                 Id = created.Id,
                 Title = created.Title,
                 Content = created.Content,
-                UserID = created.UserID,
+                UserId = created.UserId,
                 CreatedAt = created.CreatedAt,
                 UpdatedAt = created.UpdatedAt
             };
         }
 
-        public async Task<bool> Update(int id, NoteDto note)
+        public async Task<bool> Update(Guid   id, NoteDto note)
         {
             if (id != note.Id) return false;
 
@@ -73,9 +73,9 @@ namespace ProductivIOBackend.Services
             return true;
         }
 
-        public async Task<bool> Delete(int id, int userId)
+        public async Task<bool> Delete(Guid   id, Guid   UserId)
         {
-            return await _noteRepository.DeleteNoteAsync(id, userId);
+            return await _noteRepository.DeleteNoteAsync(id, UserId);
         }
     }
 }

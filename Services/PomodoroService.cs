@@ -17,14 +17,14 @@ namespace ProductivIOBackend.Services
             _pomodoroRepository = pomodoroRepository;
         }
 
-        public async Task<IEnumerable<PomodoroDto>> GetAll(int userId)
+        public async Task<IEnumerable<PomodoroDto>> GetAll(Guid   UserId)
         {
-            var pomodoros = await _pomodoroRepository.GetAllPomodoroAsync(userId);
+            var pomodoros = await _pomodoroRepository.GetAllPomodoroAsync(UserId);
 
             return pomodoros.Select(p => new PomodoroDto
             {
                 Id = p.Id,
-                UserID = p.UserID,
+                UserId = p.UserId,
                 Duration = p.Duration,
                 SessionType = p.SessionType,
                 IsCompleted = p.IsCompleted,
@@ -33,15 +33,15 @@ namespace ProductivIOBackend.Services
             });
         }
 
-        public async Task<PomodoroDto?> Get(int id, int userId)
+        public async Task<PomodoroDto?> Get(Guid   id, Guid   UserId)
         {
-            var pomodoro = await _pomodoroRepository.GetPomodoroAsync(id, userId);
+            var pomodoro = await _pomodoroRepository.GetPomodoroAsync(id, UserId);
             if (pomodoro == null) return null;
 
             return new PomodoroDto
             {
                 Id = pomodoro.Id,
-                UserID = pomodoro.UserID,
+                UserId = pomodoro.UserId,
                 Duration = pomodoro.Duration,
                 SessionType = pomodoro.SessionType,
                 IsCompleted = pomodoro.IsCompleted,
@@ -58,7 +58,7 @@ namespace ProductivIOBackend.Services
             return new PomodoroDto
             {
                 Id = created.Id,
-                UserID = created.UserID,
+                UserId = created.UserId,
                 Duration = created.Duration,
                 SessionType = created.SessionType,
                 IsCompleted = created.IsCompleted,
@@ -67,7 +67,7 @@ namespace ProductivIOBackend.Services
             };
         }
 
-        public async Task<bool> Update(int id, PomodoroDto pomodoro)
+        public async Task<bool> Update(Guid   id, PomodoroDto pomodoro)
         {
             if (id != pomodoro.Id) return false;
 
@@ -77,19 +77,19 @@ namespace ProductivIOBackend.Services
             return true;
         }
 
-        public async Task<bool> Delete(int id, int userId)
+        public async Task<bool> Delete(Guid   id, Guid   UserId)
         {
-            return await _pomodoroRepository.DeletePomodoroAsync(id, userId);
+            return await _pomodoroRepository.DeletePomodoroAsync(id, UserId);
         }
 
-        public async Task<int> GetCompletedSession(int userId)
+        public async Task<int> GetCompletedSession(Guid   UserId)
         {
-            return await _pomodoroRepository.GetCompletedSessionAsync(userId);
+            return await _pomodoroRepository.GetCompletedSessionAsync(UserId);
         }
 
-        public async Task<double> GetTotalDuration(int userId)
+        public async Task<double> GetTotalDuration(Guid   UserId)
         {
-            return await _pomodoroRepository.GetTotalDurationAsync(userId);
+            return await _pomodoroRepository.GetTotalDurationAsync(UserId);
         }
     }
 }

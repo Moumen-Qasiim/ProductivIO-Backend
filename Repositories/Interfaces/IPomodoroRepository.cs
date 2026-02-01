@@ -6,12 +6,12 @@ namespace ProductivIOBackend.Repositories.Interfaces
 {
     public interface IPomodoroRepository
     {
-        Task<List<PomodoroDto>> GetAllPomodoroAsync(int userId);
-        Task<PomodoroDto?> GetPomodoroAsync(int Id, int userId);
+        Task<List<PomodoroDto>> GetAllPomodoroAsync(Guid userId);
+        Task<PomodoroDto?> GetPomodoroAsync(Guid id, Guid userId);
         Task<PomodoroDto?> UpdatePomodoroAsync(PomodoroDto pomodoro);
         Task<PomodoroDto?> AddPomodoroAsync(PomodoroDto pomodoro);
-        Task<bool> DeletePomodoroAsync(int Id, int userId);
-        Task<int> GetCompletedSessionAsync(int userId);
-        Task<double> GetTotalDurationAsync(int userId);
+        Task<bool> DeletePomodoroAsync(Guid id, Guid userId);
+        Task<int> GetCompletedSessionAsync(Guid userId);
+        Task<double> GetTotalDurationAsync(Guid userId);
     }
 }

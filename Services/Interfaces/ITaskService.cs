@@ -6,10 +6,10 @@ namespace ProductivIOBackend.Services.Interfaces
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskDto>> GetAll(int userId);
-        Task<TaskDto?> Get(int id, int userId);
+        Task<IEnumerable<TaskDto>> GetAll(Guid userId);
+        Task<TaskDto?> Get(Guid id, Guid   userId);
         Task<TaskDto?> Create(TaskDto task);
-        Task<bool> Update(int id, TaskDto task);
-        Task<bool> Delete(int id, int userId);
+        Task<bool> Update(Guid id, TaskDto task);
+        Task<bool> Delete(Guid id, Guid   userId);
     }
 }

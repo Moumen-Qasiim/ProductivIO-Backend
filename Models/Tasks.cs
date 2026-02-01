@@ -6,11 +6,11 @@ namespace ProductivIOBackend.Models
     public class Tasks
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+        public Guid UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public required User User { get; set; }
 
 

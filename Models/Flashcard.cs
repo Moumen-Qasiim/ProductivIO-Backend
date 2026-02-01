@@ -5,11 +5,11 @@ using ProductivIOBackend.Models;
 public class Flashcards
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int UserID { get; set; }
+    public Guid UserId { get; set; }
 
-    [ForeignKey("UserID")]
+    [ForeignKey("UserId")]
     public User? User { get; set; }
 
     [Required]
@@ -18,19 +18,18 @@ public class Flashcards
     public string? Description { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-
+    public DateTime CreatedAt { get; set; } 
     public DateTime? UpdatedAt { get; set; }
 
-    public ICollection<FlashcardQuestion> FlashcardQuestions { get; set; } = new List<FlashcardQuestion>();
+    public ICollection<FlashcardQuestion> FlashcardQuestions { get; set; } = [];
 }
 
 public class FlashcardQuestion
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int FlashcardId { get; set; }
+    public Guid FlashcardId { get; set; }
 
     [ForeignKey("FlashcardId")]
     public Flashcards? Flashcard { get; set; }
@@ -41,19 +40,19 @@ public class FlashcardQuestion
     public string? Hint { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } 
 
     public DateTime? UpdatedAt { get; set; }
 
-    public ICollection<FlashcardAnswer> Answers { get; set; } = new List<FlashcardAnswer>();
+    public ICollection<FlashcardAnswer> Answers { get; set; } = [];
 }
 
 public class FlashcardAnswer
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int QuestionId { get; set; }
+    public Guid QuestionId { get; set; }
 
     [ForeignKey("QuestionId")]
     public FlashcardQuestion? FlashcardQuestion { get; set; } 
@@ -64,7 +63,7 @@ public class FlashcardAnswer
     public bool IsCorrect { get; set; } = false;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } 
 
     public DateTime? UpdatedAt { get; set; }
 }

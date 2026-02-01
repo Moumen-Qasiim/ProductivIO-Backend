@@ -16,7 +16,7 @@ namespace ProductivIOBackend.Services
             _quizResultRepository = quizResultRepository;
         }
 
-        public async Task<QuizResultDto> SubmitQuizResult(int userId, int quizId, List<QuizResultAnswerDto> answers)
+        public async Task<QuizResultDto> SubmitQuizResult(Guid userId, Guid quizId, List<QuizResultAnswerDto> answers)
         {
             // Load the quiz with its questions and answers
             var quiz = await _quizRepository.GetQuizAsync(quizId, userId);
@@ -79,7 +79,7 @@ namespace ProductivIOBackend.Services
             };
         }
 
-        public async Task<List<QuizResultDto>> GetUserQuizResults(int userId)
+        public async Task<List<QuizResultDto>> GetUserQuizResults(Guid userId)
         {
             var results = await _quizResultRepository.GetResultsByUserAsync(userId);
             return results.Select(r => new QuizResultDto
@@ -94,7 +94,7 @@ namespace ProductivIOBackend.Services
             }).ToList();
         }
 
-        public async Task<QuizResultDto?> GetQuizResult(int resultId, int userId)
+        public async Task<QuizResultDto?> GetQuizResult(Guid resultId, Guid userId)
         {
             var result = await _quizResultRepository.GetResultByIdAsync(resultId, userId);
             if (result == null) return null;

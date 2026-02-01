@@ -6,20 +6,20 @@ namespace ProductivIOBackend.Repositories.Interfaces
     public interface IQuizRepository
     {
         // Quizzes
-        Task<List<QuizzesDto>> GetAllQuizzesAsync(int userId);
-        Task<QuizzesDto?> GetQuizAsync(int quizId, int userId);
+        Task<List<QuizzesDto>> GetAllQuizzesAsync(Guid userId);
+        Task<QuizzesDto?> GetQuizAsync(Guid quizId, Guid userId);
         Task<QuizzesDto> AddQuizAsync(QuizzesDto quiz);
         Task<QuizzesDto?> UpdateQuizAsync(QuizzesDto quiz);
-        Task<bool> DeleteQuizAsync(int quizId, int userId);
+        Task<bool> DeleteQuizAsync(Guid quizId, Guid userId);
 
         // Questions
-        Task<QuizQuestionDto?> AddQuestionAsync(int quizId, QuizQuestionDto question);
+        Task<QuizQuestionDto?> AddQuestionAsync(Guid quizId, QuizQuestionDto question);
         Task<QuizQuestionDto?> UpdateQuestionAsync(QuizQuestionDto question);
-        Task<bool> DeleteQuestionAsync(int questionId);
+        Task<bool> DeleteQuestionAsync(Guid questionId);
 
         // Answers
-        Task<QuizAnswerDto?> AddAnswerAsync(int questionId, QuizAnswerDto answer);
+        Task<QuizAnswerDto?> AddAnswerAsync(Guid questionId, QuizAnswerDto answer);
         Task<QuizAnswerDto?> UpdateAnswerAsync(QuizAnswerDto answer);
-        Task<bool> DeleteAnswerAsync(int answerId);
+        Task<bool> DeleteAnswerAsync(Guid answerId);
     }
 }

@@ -6,11 +6,11 @@ namespace ProductivIOBackend.Models
     public class Pomodoro
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int UserID { get; set; }
+        public Guid UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public required User User { get; set; }
 
         [Required(ErrorMessage = "Please set time duration.")]
@@ -22,7 +22,7 @@ namespace ProductivIOBackend.Models
         public bool IsCompleted { get; set; } = false;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } 
 
         public DateTime? UpdatedAt { get; set; }
 

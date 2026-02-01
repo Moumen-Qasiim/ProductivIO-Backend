@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class SwaggerExtensions
     {

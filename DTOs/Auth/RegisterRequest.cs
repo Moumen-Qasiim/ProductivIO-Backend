@@ -1,4 +1,4 @@
-namespace ProductivIOBackend.DTOs
+namespace ProductivIO.Backend.DTOs.Auth
 {
     public class RegisterRequest
     {

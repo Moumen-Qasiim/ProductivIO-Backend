@@ -4,9 +4,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Data;
-using ProductivIOBackend.Extensions;
-using ProductivIOBackend.Validations;
+using ProductivIO.Backend.Data;
+using ProductivIO.Backend.Extensions;
+using ProductivIO.Backend.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,8 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class JwtExtensions
     {

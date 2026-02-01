@@ -1,4 +1,4 @@
-namespace ProductivIOBackend.DTOs.Flashcards
+namespace ProductivIO.Backend.DTOs.Flashcards
 {
     public class FlashcardsDto
     {

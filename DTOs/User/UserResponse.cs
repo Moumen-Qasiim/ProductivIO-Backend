@@ -1,6 +1,4 @@
-using ProductivIOBackend.Models;
-
-namespace ProductivIOBackend.DTOs
+namespace ProductivIO.Backend.DTOs.User
 {
     public class UserResponse
     {
@@ -10,7 +8,7 @@ namespace ProductivIOBackend.DTOs
         public string Email { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
 
-        public UserResponse(User user)
+        public UserResponse(Models.User user)
         {
             Id = user.Id;
             FirstName = user.FirstName;

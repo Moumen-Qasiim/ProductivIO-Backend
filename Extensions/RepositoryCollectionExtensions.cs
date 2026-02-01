@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
-using ProductivIOBackend.Repositories;
-using ProductivIOBackend.Repositories.Interfaces;
+using ProductivIO.Backend.Repositories;
+using ProductivIO.Backend.Repositories.Interfaces;
 
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class RepositoryCollectionExtensions
     {

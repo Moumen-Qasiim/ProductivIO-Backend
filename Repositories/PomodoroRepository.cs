@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Data;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Repositories.Interfaces;
-using ProductivIOBackend.DTOs.Pomodoro;
+using ProductivIO.Backend.Data;
+using ProductivIO.Backend.DTOs.Pomodoro;
+using ProductivIO.Backend.Models;
+using ProductivIO.Backend.Repositories.Interfaces;
 
-namespace ProductivIOBackend.Repositories
+namespace ProductivIO.Backend.Repositories
 {
     public class PomodoroRepository : IPomodoroRepository
     {

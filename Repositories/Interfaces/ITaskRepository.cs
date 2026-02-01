@@ -1,7 +1,6 @@
-using ProductivIOBackend.DTOs.Tasks;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Tasks;
 
-namespace ProductivIOBackend.Repositories.Interfaces
+namespace ProductivIO.Backend.Repositories.Interfaces
 {
     public interface ITaskRepository
     {

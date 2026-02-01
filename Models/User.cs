@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProductivIOBackend.Models 
+namespace ProductivIO.Backend.Models 
 {
     public class User
     {

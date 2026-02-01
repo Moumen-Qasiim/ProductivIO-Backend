@@ -1,11 +1,8 @@
-using System.Threading.Tasks;
-using ProductivIOBackend.DTOs;
-using ProductivIOBackend.Services.Interfaces;
-using ProductivIOBackend.Repositories.Interfaces;
-using ProductivIOBackend.DTOs.Tasks;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Tasks;
+using ProductivIO.Backend.Repositories.Interfaces;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Services
+namespace ProductivIO.Backend.Services
 {
     public class TaskService : ITaskService
     {

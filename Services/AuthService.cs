@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Data;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.DTOs;
-using ProductivIOBackend.Repositories.Interfaces;
-using ProductivIOBackend.Services.Interfaces;
+using ProductivIO.Backend.DTOs.Auth;
+using ProductivIO.Backend.DTOs.User;
+using ProductivIO.Backend.Models;
+using ProductivIO.Backend.Repositories.Interfaces;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Services
+namespace ProductivIO.Backend.Services
 {
     public class AuthService : IAuthService
     {

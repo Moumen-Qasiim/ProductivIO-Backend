@@ -1,7 +1,6 @@
-using ProductivIOBackend.DTOs.Pomodoro;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Pomodoro;
 
-namespace ProductivIOBackend.Services.Interfaces
+namespace ProductivIO.Backend.Services.Interfaces
 {
     public interface IPomodoroService
     {

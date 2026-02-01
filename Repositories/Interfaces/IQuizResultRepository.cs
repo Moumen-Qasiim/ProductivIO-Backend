@@ -1,7 +1,6 @@
-using ProductivIOBackend.DTOs.Quiz;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Quiz;
 
-namespace ProductivIOBackend.Repositories.Interfaces
+namespace ProductivIO.Backend.Repositories.Interfaces
 {
     public interface IQuizResultRepository
     {

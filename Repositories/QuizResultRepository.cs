@@ -1,9 +1,9 @@
-using ProductivIOBackend.Data;
-using ProductivIOBackend.DTOs.Quiz;
-using ProductivIOBackend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using ProductivIO.Backend.Data;
+using ProductivIO.Backend.DTOs.Quiz;
+using ProductivIO.Backend.Repositories.Interfaces;
 
-namespace ProductivIOBackend.Repositories
+namespace ProductivIO.Backend.Repositories
 {
     public class QuizResultRepository : IQuizResultRepository
     {

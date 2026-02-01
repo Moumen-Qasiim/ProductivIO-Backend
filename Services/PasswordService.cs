@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Services.Interfaces;
+using ProductivIO.Backend.Models;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Services
+namespace ProductivIO.Backend.Services
 {
     public class PasswordService : IPasswordService
     {

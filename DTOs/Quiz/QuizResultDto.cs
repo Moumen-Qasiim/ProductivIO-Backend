@@ -2,9 +2,9 @@ namespace ProductivIOBackend.DTOs.Quiz
 {
     public class QuizResultDto
     {
-        public int Id { get; set; }
-        public int QuizId { get; set; }
-        public int UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid QuizId { get; set; }
+        public Guid UserId { get; set; }
         public int Score { get; set; }
         public int TotalQuestions { get; set; }
         public int CorrectAnswers { get; set; }

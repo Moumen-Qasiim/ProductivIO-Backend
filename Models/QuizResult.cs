@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using ProductivIOBackend.Models;
 
 namespace ProductivIOBackend.Models
@@ -12,7 +13,8 @@ namespace ProductivIOBackend.Models
         public int TotalQuestions { get; set; }
         public int CorrectAnswers { get; set; }
 
-        public DateTime TakenAt { get; set; } 
+        [Column("TakenAt")]
+        public DateTime CreatedAt { get; set; } 
 
         
         public User User { get; set; } = null!;

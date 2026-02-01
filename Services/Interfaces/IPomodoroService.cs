@@ -5,12 +5,12 @@ namespace ProductivIOBackend.Services.Interfaces
 {
     public interface IPomodoroService
     {
-        Task<IEnumerable<PomodoroDto>> GetAll(int userId);
-        Task<PomodoroDto?> Get(int id, int userId);
+        Task<IEnumerable<PomodoroDto>> GetAll(Guid userId);
+        Task<PomodoroDto?> Get(Guid id, Guid userId);
         Task<PomodoroDto?> Create(PomodoroDto pomodoro);
-        Task<bool> Update(int id, PomodoroDto pomodoro);
-        Task<bool> Delete(int id, int userId);
-        Task<int> GetCompletedSession(int userId);
-        Task<double> GetTotalDuration(int userId);
+        Task<bool> Update(Guid id, PomodoroDto pomodoro);
+        Task<bool> Delete(Guid id, Guid userId);
+        Task<int> GetCompletedSession(Guid userId);
+        Task<double> GetTotalDuration(Guid userId);
     }
 }

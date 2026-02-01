@@ -16,18 +16,18 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Quizzes
-        public async Task<List<QuizzesDto>> GetAllQuizzesAsync(int userId)
+        public async Task<List<QuizzesDto>> GetAllQuizzesAsync(Guid UserId)
         {
             var quizzes = await _db.Quizzes
                 .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Answers)
-                .Where(q => q.UserID == userId)
+                .Where(q => q.UserId == UserId)
                 .ToListAsync();
 
             return quizzes.Select(q => new QuizzesDto
             {
                 Id = q.Id,
-                UserID = q.UserID,
+                UserId = q.UserId,
                 Title = q.Title,
                 Description = q.Description,
                 CreatedAt = q.CreatedAt,
@@ -35,7 +35,7 @@ namespace ProductivIOBackend.Repositories
                 Questions = q.QuizQuestions.Select(qq => new QuizQuestionDto
                 {
                     Id = qq.Id,
-                    QuizID = qq.QuizID,
+                    QuizId = qq.QuizId,
                     Question = qq.Question,
                     CreatedAt = qq.CreatedAt,
                     UpdatedAt = qq.UpdatedAt,
@@ -52,19 +52,19 @@ namespace ProductivIOBackend.Repositories
             }).ToList();
         }
 
-        public async Task<QuizzesDto?> GetQuizAsync(int quizId, int userId)
+        public async Task<QuizzesDto?> GetQuizAsync(Guid QuizId, Guid UserId)
         {
             var quiz = await _db.Quizzes
                 .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Answers)
-                .FirstOrDefaultAsync(q => q.Id == quizId && q.UserID == userId);
+                .FirstOrDefaultAsync(q => q.Id == QuizId && q.UserId == UserId);
 
             if (quiz == null) return null;
 
             return new QuizzesDto
             {
                 Id = quiz.Id,
-                UserID = quiz.UserID,
+                UserId = quiz.UserId,
                 Title = quiz.Title,
                 Description = quiz.Description,
                 CreatedAt = quiz.CreatedAt,
@@ -72,7 +72,7 @@ namespace ProductivIOBackend.Repositories
                 Questions = quiz.QuizQuestions.Select(qq => new QuizQuestionDto
                 {
                     Id = qq.Id,
-                    QuizID = qq.QuizID,
+                    QuizId = qq.QuizId,
                     Question = qq.Question,
                     CreatedAt = qq.CreatedAt,
                     UpdatedAt = qq.UpdatedAt,
@@ -93,7 +93,7 @@ namespace ProductivIOBackend.Repositories
         {
             var quiz = new Quizzes
             {
-                UserID = quizDto.UserID,
+                UserId = quizDto.UserId,
                 Title = quizDto.Title,
                 Description = quizDto.Description,
                 CreatedAt = DateTime.Now
@@ -122,12 +122,12 @@ namespace ProductivIOBackend.Repositories
             return quizDto;
         }
 
-        public async Task<bool> DeleteQuizAsync(int quizId, int userId)
+        public async Task<bool> DeleteQuizAsync(Guid QuizId, Guid UserId)
         {
             var quiz = await _db.Quizzes
                 .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Answers)
-                .FirstOrDefaultAsync(q => q.Id == quizId && q.UserID == userId);
+                .FirstOrDefaultAsync(q => q.Id == QuizId && q.UserId == UserId);
 
             if (quiz == null) return false;
 
@@ -137,14 +137,14 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Quiz Questions
-        public async Task<QuizQuestionDto?> AddQuestionAsync(int quizId, QuizQuestionDto questionDto)
+        public async Task<QuizQuestionDto?> AddQuestionAsync(Guid QuizId, QuizQuestionDto questionDto)
         {
-            var quiz = await _db.Quizzes.FindAsync(quizId);
+            var quiz = await _db.Quizzes.FindAsync(QuizId);
             if (quiz == null) return null;
 
             var question = new QuizQuestion
             {
-                QuizID = quizId,
+                QuizId = QuizId,
                 Question = questionDto.Question,
                 CreatedAt = DateTime.Now
             };
@@ -153,7 +153,7 @@ namespace ProductivIOBackend.Repositories
             await _db.SaveChangesAsync();
 
             questionDto.Id = question.Id;
-            questionDto.QuizID = question.QuizID;
+            questionDto.QuizId = question.QuizId;
             questionDto.CreatedAt = question.CreatedAt;
             return questionDto;
         }
@@ -172,7 +172,7 @@ namespace ProductivIOBackend.Repositories
             return questionDto;
         }
 
-        public async Task<bool> DeleteQuestionAsync(int questionId)
+        public async Task<bool> DeleteQuestionAsync(Guid questionId)
         {
             var question = await _db.QuizQuestions
                 .Include(q => q.Answers)
@@ -186,7 +186,7 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Quiz Answers
-        public async Task<QuizAnswerDto?> AddAnswerAsync(int questionId, QuizAnswerDto answerDto)
+        public async Task<QuizAnswerDto?> AddAnswerAsync(Guid questionId, QuizAnswerDto answerDto)
         {
             var question = await _db.QuizQuestions.FindAsync(questionId);
             if (question == null) return null;
@@ -222,7 +222,7 @@ namespace ProductivIOBackend.Repositories
             return answerDto;
         }
 
-        public async Task<bool> DeleteAnswerAsync(int answerId)
+        public async Task<bool> DeleteAnswerAsync(Guid answerId)
         {
             var answer = await _db.QuizAnswers.FindAsync(answerId);
             if (answer == null) return false;

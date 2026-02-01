@@ -16,14 +16,14 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get all tasks for a specific user
-        public async Task<List<TaskDto>> GetAllTasksAsync(int userId)
+        public async Task<List<TaskDto>> GetAllTasksAsync(Guid UserId)
         {
             return await _db.Tasks
-                .Where(t => t.UserID == userId)
+                .Where(t => t.UserId == UserId)
                 .Select(t => new TaskDto
                 {
                     Id = t.Id,
-                    UserID = t.UserID,
+                    UserId = t.UserId,
                     Title = t.Title,
                     Description = t.Description,
                     Priority = t.Priority,
@@ -37,17 +37,17 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get a single task by ID
-        public async Task<TaskDto?> GetTaskAsync(int id, int userId)
+        public async Task<TaskDto?> GetTaskAsync(Guid id, Guid UserId)
         {
             var t = await _db.Tasks
-                .FirstOrDefaultAsync(x => x.Id == id && x.UserID == userId);
+                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == UserId);
 
             if (t == null) return null;
 
             return new TaskDto
             {
                 Id = t.Id,
-                UserID = t.UserID,
+                UserId = t.UserId,
                 Title = t.Title,
                 Description = t.Description,
                 Priority = t.Priority,
@@ -61,14 +61,14 @@ namespace ProductivIOBackend.Repositories
         // Add a new task
         public async Task<TaskDto?> AddTaskAsync(TaskDto dto)
         {
-            var user = await _db.Users.FindAsync(dto.UserID);
+            var user = await _db.Users.FindAsync(dto.UserId);
             if (user == null)
-                throw new InvalidOperationException($"User with ID {dto.UserID} not found.");
+                throw new InvalidOperationException($"User with ID {dto.UserId} not found.");
 
 
             var entity = new Tasks
             {
-                UserID = dto.UserID,
+                UserId = dto.UserId,
                 User = user,
                 Title = dto.Title,
                 Description = dto.Description,
@@ -90,7 +90,7 @@ namespace ProductivIOBackend.Repositories
         public async Task<TaskDto?> UpdateTaskAsync(TaskDto dto)
         {
             var existing = await _db.Tasks
-                .FirstOrDefaultAsync(t => t.Id == dto.Id && t.UserID == dto.UserID);
+                .FirstOrDefaultAsync(t => t.Id == dto.Id && t.UserId == dto.UserId);
 
             if (existing == null) return null;
 
@@ -108,10 +108,10 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Delete a task
-        public async Task<bool> DeleteTaskAsync(int id, int userId)
+        public async Task<bool> DeleteTaskAsync(Guid id, Guid UserId)
         {
             var task = await _db.Tasks
-                .FirstOrDefaultAsync(t => t.Id == id && t.UserID == userId);
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == UserId);
 
             if (task == null) return false;
 

@@ -16,15 +16,15 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get all notes for a specific user
-        public async Task<List<NoteDto>> GetAllNotesAsync(int userId)
+        public async Task<List<NoteDto>> GetAllNotesAsync(Guid UserId)
         {
             return await _db.Notes
-                .Where(n => n.UserID == userId)
+                .Where(n => n.UserId == UserId)
                 .OrderByDescending(n => n.CreatedAt)
                 .Select(n => new NoteDto
                 {
                     Id = n.Id,
-                    UserID = n.UserID,
+                    UserId = n.UserId,
                     Title = n.Title,
                     Content = n.Content,
                     CreatedAt = n.CreatedAt,
@@ -34,17 +34,17 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get a single note by ID
-        public async Task<NoteDto?> GetNoteAsync(int id, int userId)
+        public async Task<NoteDto?> GetNoteAsync(Guid id, Guid UserId)
         {
             var note = await _db.Notes
-                .FirstOrDefaultAsync(n => n.Id == id && n.UserID == userId);
+                .FirstOrDefaultAsync(n => n.Id == id && n.UserId == UserId);
 
             if (note == null) return null;
 
             return new NoteDto
             {
                 Id = note.Id,
-                UserID = note.UserID,
+                UserId = note.UserId,
                 Title = note.Title,
                 Content = note.Content,
                 CreatedAt = note.CreatedAt,
@@ -55,13 +55,13 @@ namespace ProductivIOBackend.Repositories
         // Add a new note
         public async Task<NoteDto?> AddNoteAsync(NoteDto dto)
         {
-            var user = await _db.Users.FindAsync(dto.UserID);
+            var user = await _db.Users.FindAsync(dto.UserId);
             if (user == null)
-                throw new InvalidOperationException($"User with ID {dto.UserID} not found.");
+                throw new InvalidOperationException($"User with ID {dto.UserId} not found.");
 
             var entity = new Notes
             {
-                UserID = dto.UserID,
+                UserId = dto.UserId,
                 User = user,
                 Title = dto.Title,
                 Content = dto.Content,
@@ -81,7 +81,7 @@ namespace ProductivIOBackend.Repositories
         {
             var existing = await _db.Notes
                 .Include(n => n.User)
-                .FirstOrDefaultAsync(n => n.Id == dto.Id && n.UserID == dto.UserID);
+                .FirstOrDefaultAsync(n => n.Id == dto.Id && n.UserId == dto.UserId);
 
             if (existing == null) return null;
 
@@ -96,10 +96,10 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Delete a note
-        public async Task<bool> DeleteNoteAsync(int id, int userId)
+        public async Task<bool> DeleteNoteAsync(Guid id, Guid UserId)
         {
             var note = await _db.Notes
-                .FirstOrDefaultAsync(n => n.Id == id && n.UserID == userId);
+                .FirstOrDefaultAsync(n => n.Id == id && n.UserId == UserId);
 
             if (note == null) return false;
 

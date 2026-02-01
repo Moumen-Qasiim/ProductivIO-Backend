@@ -8,9 +8,9 @@ namespace ProductivIOBackend.Models
         [Key]
         public Guid Id { get; set; }
 
-        public Guid UserID { get; set; }
+        public Guid UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public User? User { get; set; }
 
         [Required(ErrorMessage = "Title is required.")]
@@ -29,11 +29,11 @@ namespace ProductivIOBackend.Models
     public class QuizQuestion
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int QuizID { get; set; }
+        public Guid QuizId { get; set; }
 
-        [ForeignKey("QuizID")]
+        [ForeignKey("QuizId")]
         public Quizzes? Quiz { get; set; }
 
         [Required(ErrorMessage = "Question is required.")]
@@ -50,9 +50,9 @@ namespace ProductivIOBackend.Models
     public class QuizAnswer
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int QuestionId { get; set; }
+        public Guid QuestionId { get; set; }
 
         [ForeignKey("QuestionId")]
         public QuizQuestion? QuizQuestion { get; set; }
@@ -63,7 +63,7 @@ namespace ProductivIOBackend.Models
         public bool IsCorrect { get; set; } = false;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } 
 
         public DateTime? UpdatedAt { get; set; }
     }

@@ -15,13 +15,13 @@ namespace ProductivIOBackend.Services
         }
 
         // Flashcards 
-        public async Task<List<FlashcardsDto>> GetAllFlashcardsAsync(int userId)
+        public async Task<List<FlashcardsDto>> GetAllFlashcardsAsync(Guid   UserId)
         {
-            var flashcards = await _flashcardRepository.GetAllFlashcardsAsync(userId);
+            var flashcards = await _flashcardRepository.GetAllFlashcardsAsync(UserId);
             return flashcards.Select(f => new FlashcardsDto
             {
                 Id = f.Id,
-                UserID = f.UserID,
+                UserId = f.UserId,
                 Title = f.Title,
                 Description = f.Description,
                 CreatedAt = f.CreatedAt,
@@ -29,15 +29,15 @@ namespace ProductivIOBackend.Services
             }).ToList();
         }
 
-        public async Task<FlashcardsDto?> GetFlashcardAsync(int id, int userId)
+        public async Task<FlashcardsDto?> GetFlashcardAsync(Guid   id, Guid UserId)
         {
-            var flashcard = await _flashcardRepository.GetFlashcardAsync(id, userId);
+            var flashcard = await _flashcardRepository.GetFlashcardAsync(id, UserId);
             if (flashcard == null) return null;
 
             return new FlashcardsDto
             {
                 Id = flashcard.Id,
-                UserID = flashcard.UserID,
+                UserId = flashcard.UserId,
                 Title = flashcard.Title,
                 Description = flashcard.Description,
                 CreatedAt = flashcard.CreatedAt,
@@ -52,7 +52,7 @@ namespace ProductivIOBackend.Services
             return new FlashcardsDto
             {
                 Id = created.Id,
-                UserID = created.UserID,
+                UserId = created.UserId,
                 Title = created.Title,
                 Description = created.Description,
                 CreatedAt = created.CreatedAt,
@@ -68,7 +68,7 @@ namespace ProductivIOBackend.Services
             return new FlashcardsDto
             {
                 Id = updated.Id,
-                UserID = updated.UserID,
+                UserId = updated.UserId,
                 Title = updated.Title,
                 Description = updated.Description,
                 CreatedAt = updated.CreatedAt,
@@ -76,13 +76,13 @@ namespace ProductivIOBackend.Services
             };
         }
 
-        public async Task<bool> DeleteFlashcardAsync(int id, int userId)
+        public async Task<bool> DeleteFlashcardAsync(Guid   id, Guid UserId)
         {
-            return await _flashcardRepository.DeleteFlashcardAsync(id, userId);
+            return await _flashcardRepository.DeleteFlashcardAsync(id, UserId);
         }
 
         // Flashcard Questions 
-        public async Task<FlashcardQuestionDto?> AddQuestionAsync(int flashcardId, FlashcardQuestionDto question)
+        public async Task<FlashcardQuestionDto?> AddQuestionAsync(Guid   flashcardId, FlashcardQuestionDto question)
         {
             var created = await _flashcardRepository.AddQuestionAsync(flashcardId, question);
             if (created == null) return null;
@@ -114,13 +114,13 @@ namespace ProductivIOBackend.Services
             };
         }
 
-        public async Task<bool> DeleteQuestionAsync(int questionId)
+        public async Task<bool> DeleteQuestionAsync(Guid   questionId)
         {
             return await _flashcardRepository.DeleteQuestionAsync(questionId);
         }
 
         // Flashcard Answers
-        public async Task<FlashcardAnswerDto?> AddAnswerAsync(int questionId, FlashcardAnswerDto answer)
+        public async Task<FlashcardAnswerDto?> AddAnswerAsync(Guid   questionId, FlashcardAnswerDto answer)
         {
             var created = await _flashcardRepository.AddAnswerAsync(questionId, answer);
             if (created == null) return null;
@@ -152,7 +152,7 @@ namespace ProductivIOBackend.Services
             };
         }
 
-        public async Task<bool> DeleteAnswerAsync(int answerId)
+        public async Task<bool> DeleteAnswerAsync(Guid   answerId)
         {
             return await _flashcardRepository.DeleteAnswerAsync(answerId);
         }

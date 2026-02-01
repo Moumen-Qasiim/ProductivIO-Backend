@@ -8,9 +8,9 @@ namespace ProductivIOBackend.Models
         [Key]
         public Guid Id { get; set; }
 
-        public Guid UserID { get; set; }
+        public Guid UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public required User User { get; set; }
 
 

@@ -6,8 +6,8 @@ namespace ProductivIOBackend.Repositories.Interfaces
     public interface IQuizResultRepository
     {
         Task<QuizResultDto> AddQuizResultAsync(QuizResultDto result);
-        Task<List<QuizResultDto>> GetResultsByUserAsync(int userId);
-        Task<QuizResultDto?> GetResultByIdAsync(int resultId, int userId);
+        Task<List<QuizResultDto>> GetResultsByUserAsync(Guid userId);
+        Task<QuizResultDto?> GetResultByIdAsync(Guid resultId, Guid userId);
     }
 
 }

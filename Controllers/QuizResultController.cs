@@ -18,8 +18,8 @@ namespace ProductivIOBackend.Controllers
         // POST: /api/QuizResult/submit
         [HttpPost("submit")]
         public async Task<IActionResult> SubmitQuizResult(
-            [FromQuery] int userId,
-            [FromQuery] int quizId,
+            [FromQuery] Guid userId,
+            [FromQuery] Guid quizId,
             [FromBody] List<QuizResultAnswerDto> answers)
         {
             if (answers == null || !answers.Any())
@@ -38,7 +38,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: /api/QuizResult/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetUserQuizResults(int userId)
+        public async Task<IActionResult> GetUserQuizResults(Guid userId)
         {
             var results = await _quizResultService.GetUserQuizResults(userId);
             if (results == null || results.Count == 0)
@@ -49,7 +49,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: /api/QuizResult/{resultId}?userId=1
         [HttpGet("{resultId}")]
-        public async Task<IActionResult> GetQuizResult(int resultId, [FromQuery] int userId)
+        public async Task<IActionResult> GetQuizResult(Guid resultId, [FromQuery] Guid userId)
         {
             var result = await _quizResultService.GetQuizResult(resultId, userId);
             if (result == null)

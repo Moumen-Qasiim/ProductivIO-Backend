@@ -16,15 +16,15 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get all pomodoro sessions for a specific user
-        public async Task<List<PomodoroDto>> GetAllPomodoroAsync(int userId)
+        public async Task<List<PomodoroDto>> GetAllPomodoroAsync(Guid UserId)
         {
             return await _db.Pomodoros
-                .Where(p => p.UserID == userId)
+                .Where(p => p.UserId == UserId)
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => new PomodoroDto
                 {
                     Id = p.Id,
-                    UserID = p.UserID,
+                    UserId = p.UserId,
                     Duration = p.Duration,
                     SessionType = p.SessionType,
                     IsCompleted = p.IsCompleted,
@@ -35,17 +35,17 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get a single pomodoro record
-        public async Task<PomodoroDto?> GetPomodoroAsync(int id, int userId)
+        public async Task<PomodoroDto?> GetPomodoroAsync(Guid id, Guid UserId)
         {
             var pomodoro = await _db.Pomodoros
-                .FirstOrDefaultAsync(p => p.Id == id && p.UserID == userId);
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == UserId);
 
             if (pomodoro == null) return null;
 
             return new PomodoroDto
             {
                 Id = pomodoro.Id,
-                UserID = pomodoro.UserID,
+                UserId = pomodoro.UserId,
                 Duration = pomodoro.Duration,
                 SessionType = pomodoro.SessionType,
                 IsCompleted = pomodoro.IsCompleted,
@@ -57,13 +57,13 @@ namespace ProductivIOBackend.Repositories
         // Add a new pomodoro
         public async Task<PomodoroDto?> AddPomodoroAsync(PomodoroDto dto)
         {
-            var user = await _db.Users.FindAsync(dto.UserID);
+            var user = await _db.Users.FindAsync(dto.UserId);
             if (user == null)
-                throw new InvalidOperationException($"User with ID {dto.UserID} not found.");
+                throw new InvalidOperationException($"User with ID {dto.UserId} not found.");
 
             var entity = new Pomodoro
             {
-                UserID = dto.UserID,
+                UserId = dto.UserId,
                 User = user,
                 Duration = dto.Duration,
                 SessionType = dto.SessionType,
@@ -84,7 +84,7 @@ namespace ProductivIOBackend.Repositories
         {
             var existing = await _db.Pomodoros
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.Id == dto.Id && p.UserID == dto.UserID);
+                .FirstOrDefaultAsync(p => p.Id == dto.Id && p.UserId == dto.UserId);
 
             if (existing == null) return null;
 
@@ -100,10 +100,10 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Delete a pomodoro
-        public async Task<bool> DeletePomodoroAsync(int id, int userId)
+        public async Task<bool> DeletePomodoroAsync(Guid id, Guid UserId)
         {
             var pomodoro = await _db.Pomodoros
-                .FirstOrDefaultAsync(p => p.Id == id && p.UserID == userId);
+                .FirstOrDefaultAsync(p => p.Id == id && p.UserId == UserId);
 
             if (pomodoro == null) return false;
 
@@ -113,18 +113,18 @@ namespace ProductivIOBackend.Repositories
         }
 
         // Get completed work session by id
-        public async Task<int> GetCompletedSessionAsync(int userId)
+        public async Task<int> GetCompletedSessionAsync(Guid UserId)
         {
             return await _db.Pomodoros
-                .Where(p => p.UserID == userId && p.SessionType == "work" && p.IsCompleted)
+                .Where(p => p.UserId == UserId && p.SessionType == "work" && p.IsCompleted)
                 .CountAsync();
         }
 
         // Get total work duration 
-        public async Task<double> GetTotalDurationAsync(int userId)
+        public async Task<double> GetTotalDurationAsync(Guid UserId)
         {
             var completedSessions = await _db.Pomodoros
-                .Where(s => s.UserID == userId && s.IsCompleted)
+                .Where(s => s.UserId == UserId && s.IsCompleted)
                 .ToListAsync();
 
             double totalDuration = completedSessions.Sum(s => (long?)s.Duration.Ticks) ?? 0;

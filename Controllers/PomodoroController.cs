@@ -19,7 +19,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Pomodoro/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetAll(int userId)
+        public async Task<IActionResult> GetAll(Guid userId)
         {
             var pomodoros = await _pomodoroService.GetAll(userId);
             return Ok(pomodoros);
@@ -27,7 +27,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Pomodoro/{id}/user/{userId}
         [HttpGet("{id}/user/{userId}")]
-        public async Task<IActionResult> Get(int id, int userId)
+        public async Task<IActionResult> Get(Guid id, Guid userId)
         {
             var pomodoro = await _pomodoroService.Get(id, userId);
             if (pomodoro == null)
@@ -47,12 +47,12 @@ namespace ProductivIOBackend.Controllers
             if (created == null)
                 return BadRequest(new { message = "Could not create Pomodoro session." });
 
-            return CreatedAtAction(nameof(Get), new { id = created.Id, userId = created.UserID }, created);
+            return CreatedAtAction(nameof(Get), new { id = created.Id, userId = created.UserId }, created);
         }
 
         // PUT: api/Pomodoro/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] PomodoroDto pomodoro)
+        public async Task<IActionResult> Update(Guid id, [FromBody] PomodoroDto pomodoro)
         {
             if (id != pomodoro.Id)
                 return BadRequest(new { message = "Pomodoro ID mismatch." });
@@ -66,7 +66,7 @@ namespace ProductivIOBackend.Controllers
 
         // DELETE: api/Pomodoro/{id}/user/{userId}
         [HttpDelete("{id}/user/{userId}")]
-        public async Task<IActionResult> Delete(int id, int userId)
+        public async Task<IActionResult> Delete(Guid id, Guid userId)
         {
             var deleted = await _pomodoroService.Delete(id, userId);
             if (!deleted)
@@ -77,7 +77,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Pomodoro/user/{userId}/completedSession
         [HttpGet("user/{userId}/completedSession")]
-        public async Task<IActionResult> GetCompletedSession(int userId)
+        public async Task<IActionResult> GetCompletedSession(Guid userId)
         {
             var count = await _pomodoroService.GetCompletedSession(userId);
             return Ok(count);
@@ -85,7 +85,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Pomodoro/user/{userId}/sessionDuration
         [HttpGet("user/{userId}/sessionDuration")]
-        public async Task<IActionResult> GetTotalDuration(int userId)
+        public async Task<IActionResult> GetTotalDuration(Guid userId)
         {
             var duration = await _pomodoroService.GetTotalDuration(userId);
             return Ok(duration);

@@ -17,9 +17,9 @@ namespace ProductivIOBackend.Services
         }
 
 
-        public async Task<IEnumerable<TaskDto>> GetAll(int userId)
+        public async Task<IEnumerable<TaskDto>> GetAll(Guid UserId)
         {
-            var tasks = await _taskRepository.GetAllTasksAsync(userId);
+            var tasks = await _taskRepository.GetAllTasksAsync(UserId);
 
             return tasks.Select(t => new TaskDto
             {
@@ -29,15 +29,15 @@ namespace ProductivIOBackend.Services
                 Priority = t.Priority,
                 Status = t.Status,
                 DueDate = t.DueDate,
-                UserID = t.UserID,
+                UserId = t.UserId,
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
             });
         }
 
-        public async Task<TaskDto?> Get(int id, int userId)
+        public async Task<TaskDto?> Get(Guid id, Guid UserId)
         {
-            var task = await _taskRepository.GetTaskAsync(id, userId);
+            var task = await _taskRepository.GetTaskAsync(id, UserId);
             if (task == null) return null;
 
             return new TaskDto
@@ -48,7 +48,7 @@ namespace ProductivIOBackend.Services
                 Priority = task.Priority,
                 Status = task.Status,
                 DueDate = task.DueDate,
-                UserID = task.UserID,
+                UserId = task.UserId,
                 CreatedAt = task.CreatedAt,
                 UpdatedAt = task.UpdatedAt
             };
@@ -67,13 +67,13 @@ namespace ProductivIOBackend.Services
                 Priority = created.Priority,
                 Status = created.Status,
                 DueDate = created.DueDate,
-                UserID = created.UserID,
+                UserId = created.UserId,
                 CreatedAt = created.CreatedAt,
                 UpdatedAt = created.UpdatedAt
             };
         }
 
-        public async Task<bool> Update(int id, TaskDto task)
+        public async Task<bool> Update(Guid id, TaskDto task)
         {
             if (id != task.Id) return false;
 
@@ -83,9 +83,9 @@ namespace ProductivIOBackend.Services
             return true;
         }
 
-        public async Task<bool> Delete(int id, int userId)
+        public async Task<bool> Delete(Guid id, Guid UserId)
         {
-            return await _taskRepository.DeleteTaskAsync(id, userId);
+            return await _taskRepository.DeleteTaskAsync(id, UserId);
         }
     }
 }

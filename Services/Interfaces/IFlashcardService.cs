@@ -5,18 +5,18 @@ namespace ProductivIOBackend.Services.Interfaces
 {
     public interface IFlashcardService
     {
-        Task<List<FlashcardsDto>> GetAllFlashcardsAsync(int userId);
-        Task<FlashcardsDto?> GetFlashcardAsync(int id, int userId);
+        Task<List<FlashcardsDto>> GetAllFlashcardsAsync(Guid userId);
+        Task<FlashcardsDto?> GetFlashcardAsync(Guid id, Guid userId);
         Task<FlashcardsDto?> AddFlashcardAsync(FlashcardsDto flashcard);
         Task<FlashcardsDto?> UpdateFlashcardAsync(FlashcardsDto flashcard);
-        Task<bool> DeleteFlashcardAsync(int id, int userId);
+        Task<bool> DeleteFlashcardAsync(Guid id, Guid  userId);
 
-        Task<FlashcardQuestionDto?> AddQuestionAsync(int flashcardId, FlashcardQuestionDto question);
+        Task<FlashcardQuestionDto?> AddQuestionAsync(Guid flashcardId, FlashcardQuestionDto question);
         Task<FlashcardQuestionDto?> UpdateQuestionAsync(FlashcardQuestionDto question);
-        Task<bool> DeleteQuestionAsync(int questionId);
+        Task<bool> DeleteQuestionAsync(Guid questionId);
 
-        Task<FlashcardAnswerDto?> AddAnswerAsync(int questionId, FlashcardAnswerDto answer);
+        Task<FlashcardAnswerDto?> AddAnswerAsync(Guid questionId, FlashcardAnswerDto answer);
         Task<FlashcardAnswerDto?> UpdateAnswerAsync(FlashcardAnswerDto answer);
-        Task<bool> DeleteAnswerAsync(int answerId);
+        Task<bool> DeleteAnswerAsync(Guid answerId);
     }
 }

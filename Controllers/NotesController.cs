@@ -19,7 +19,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Notes/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetAll(int userId)
+        public async Task<IActionResult> GetAll(Guid userId)
         {
             var notes = await _noteService.GetAll(userId);
             return Ok(notes);
@@ -27,7 +27,7 @@ namespace ProductivIOBackend.Controllers
 
         // GET: api/Notes/{id}/user/{userId}
         [HttpGet("{id}/user/{userId}")]
-        public async Task<IActionResult> Get(int id, int userId)
+        public async Task<IActionResult> Get(Guid id, Guid userId)
         {
             var note = await _noteService.Get(id, userId);
             if (note == null)
@@ -47,12 +47,12 @@ namespace ProductivIOBackend.Controllers
             if (created == null)
                 return BadRequest(new { message = "Could not create note." });
 
-            return CreatedAtAction(nameof(Get), new { id = created.Id, userId = created.UserID }, created);
+            return CreatedAtAction(nameof(Get), new { id = created.Id, userId = created.UserId }, created);
         }
 
         // PUT: api/Notes/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] NoteDto note)
+        public async Task<IActionResult> Update(Guid id, [FromBody] NoteDto note)
         {
             if (id != note.Id)
                 return BadRequest(new { message = "Note ID mismatch." });
@@ -66,7 +66,7 @@ namespace ProductivIOBackend.Controllers
 
         // DELETE: api/Notes/{id}/user/{userId}
         [HttpDelete("{id}/user/{userId}")]
-        public async Task<IActionResult> Delete(int id, int userId)
+        public async Task<IActionResult> Delete(Guid id, Guid userId)
         {
             var deleted = await _noteService.Delete(id, userId);
             if (!deleted)

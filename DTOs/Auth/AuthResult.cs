@@ -1,6 +1,6 @@
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.User;
 
-namespace ProductivIOBackend.DTOs
+namespace ProductivIO.Backend.DTOs.Auth
 {
     public class AuthResult
     {
@@ -12,7 +12,7 @@ namespace ProductivIOBackend.DTOs
         public static AuthResult Failure(string message) =>
             new() { Success = false, Message = message };
 
-        public static AuthResult Successful(User user, string token) =>
+        public static AuthResult Successful(Models.User user, string token) =>
             new()
             {
                 Success = true,

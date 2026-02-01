@@ -1,7 +1,6 @@
-using ProductivIOBackend.DTOs.Notes;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Notes;
 
-namespace ProductivIOBackend.Services.Interfaces
+namespace ProductivIO.Backend.Services.Interfaces
 {
     public interface INoteService
     {

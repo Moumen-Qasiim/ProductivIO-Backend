@@ -1,6 +1,6 @@
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.Models;
 
-namespace ProductivIOBackend.Repositories.Interfaces
+namespace ProductivIO.Backend.Repositories.Interfaces
 {
     public interface IUserRepository
     {

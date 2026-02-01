@@ -1,6 +1,6 @@
-using ProductivIOBackend.DTOs.Flashcards;
+using ProductivIO.Backend.DTOs.Flashcards;
 
-namespace ProductivIOBackend.Repositories.Interfaces
+namespace ProductivIO.Backend.Repositories.Interfaces
 {
     public interface IFlashcardRepository
     {

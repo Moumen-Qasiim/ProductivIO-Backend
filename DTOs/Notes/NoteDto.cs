@@ -1,6 +1,4 @@
-using ProductivIOBackend.Models;
-
-namespace ProductivIOBackend.DTOs.Notes
+namespace ProductivIO.Backend.DTOs.Notes
 {
     public class NoteDto
     {

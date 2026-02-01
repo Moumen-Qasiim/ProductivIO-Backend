@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using ProductivIOBackend.Services.Interfaces;
-using ProductivIOBackend.DTOs.Quiz;
+using ProductivIO.Backend.DTOs.Quiz;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Controllers
+namespace ProductivIO.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

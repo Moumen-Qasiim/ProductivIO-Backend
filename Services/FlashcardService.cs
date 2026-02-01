@@ -1,9 +1,8 @@
-using ProductivIOBackend.DTOs.Flashcards;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Repositories.Interfaces;
-using ProductivIOBackend.Services.Interfaces;
+using ProductivIO.Backend.DTOs.Flashcards;
+using ProductivIO.Backend.Repositories.Interfaces;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Services
+namespace ProductivIO.Backend.Services
 {
     public class FlashcardService : IFlashcardService
     {

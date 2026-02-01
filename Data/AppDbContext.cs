@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.Models;
 
-namespace ProductivIOBackend.Data;
+namespace ProductivIO.Backend.Data;
 
 public class AppDbContext : DbContext
 {

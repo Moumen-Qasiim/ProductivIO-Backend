@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProductivIOBackend.Models
+namespace ProductivIO.Backend.Models
 {
     public class Tasks
     {

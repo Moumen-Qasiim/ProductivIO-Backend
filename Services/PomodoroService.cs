@@ -1,12 +1,8 @@
-using System.Threading.Tasks;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.DTOs.Pomodoro;
-using ProductivIOBackend.Repositories.Interfaces;
-using ProductivIOBackend.Services.Interfaces;
-using System.Security.Cryptography.X509Certificates;
+using ProductivIO.Backend.DTOs.Pomodoro;
+using ProductivIO.Backend.Repositories.Interfaces;
+using ProductivIO.Backend.Services.Interfaces;
 
-
-namespace ProductivIOBackend.Services
+namespace ProductivIO.Backend.Services
 {
     public class PomodoroService : IPomodoroService
     {

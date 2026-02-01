@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Data;
-using ProductivIOBackend.DTOs.Tasks;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Repositories.Interfaces;
+using ProductivIO.Backend.Data;
+using ProductivIO.Backend.DTOs.Tasks;
+using ProductivIO.Backend.Models;
+using ProductivIO.Backend.Repositories.Interfaces;
 
-namespace ProductivIOBackend.Repositories
+namespace ProductivIO.Backend.Repositories
 {
     public class TaskRepository : ITaskRepository
     {

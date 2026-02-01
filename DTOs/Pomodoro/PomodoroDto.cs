@@ -1,4 +1,4 @@
-namespace ProductivIOBackend.DTOs.Pomodoro
+namespace ProductivIO.Backend.DTOs.Pomodoro
 {
     public class PomodoroDto
     {

@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Identity;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.DTOs;
+using ProductivIO.Backend.DTOs.Auth;
 
-namespace ProductivIOBackend.Services.Interfaces
+namespace ProductivIO.Backend.Services.Interfaces
 {
     public interface IAuthService
     {

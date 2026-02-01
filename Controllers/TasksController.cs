@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using ProductivIOBackend.DTOs.Tasks;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Services.Interfaces;
+using ProductivIO.Backend.DTOs.Tasks;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Controllers
+namespace ProductivIO.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -1,5 +1,5 @@
 
-namespace ProductivIOBackend.DTOs.Quiz
+namespace ProductivIO.Backend.DTOs.Quiz
 {
     public class QuizzesDto
     {

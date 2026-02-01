@@ -1,6 +1,6 @@
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.Models;
 
-namespace ProductivIOBackend.Services.Interfaces
+namespace ProductivIO.Backend.Services.Interfaces
 {
     public interface ITokenService
     {

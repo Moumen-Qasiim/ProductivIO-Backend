@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
-using ProductivIOBackend.Services;
-using ProductivIOBackend.Services.Interfaces;
+using ProductivIO.Backend.Services;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class ServiceCollectionExtensions
     {

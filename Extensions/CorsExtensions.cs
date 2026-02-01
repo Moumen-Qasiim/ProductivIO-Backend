@@ -1,4 +1,4 @@
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class CorsExtensions
     {

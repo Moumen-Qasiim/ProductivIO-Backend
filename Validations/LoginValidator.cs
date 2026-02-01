@@ -1,7 +1,7 @@
 using FluentValidation;
-using ProductivIOBackend.DTOs;
+using ProductivIO.Backend.DTOs.Auth;
 
-namespace ProductivIOBackend.Validations
+namespace ProductivIO.Backend.Validations
 {
     public class LoginValidator : AbstractValidator<LoginRequest>
     {

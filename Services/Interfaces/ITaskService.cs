@@ -1,8 +1,6 @@
-using System.Diagnostics;
-using ProductivIOBackend.DTOs.Tasks;
-using ProductivIOBackend.Models;
+using ProductivIO.Backend.DTOs.Tasks;
 
-namespace ProductivIOBackend.Services.Interfaces
+namespace ProductivIO.Backend.Services.Interfaces
 {
     public interface ITaskService
     {

@@ -1,19 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using ProductivIOBackend.Data;
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Services.Interfaces;
-using ProductivIOBackend.DTOs;
-using ProductivIOBackend.Repositories.Interfaces;
-
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ProductivIO.Backend.DTOs.Auth;
+using ProductivIO.Backend.Services.Interfaces;
 
-namespace ProductivIOBackend.Controllers
+namespace ProductivIO.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

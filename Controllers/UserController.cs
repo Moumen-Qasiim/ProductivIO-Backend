@@ -1,11 +1,8 @@
-using ProductivIOBackend.Models;
-using ProductivIOBackend.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+using ProductivIO.Backend.Data;
 
-namespace ProductivIOBackend.Controllers
+namespace ProductivIO.Backend.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]

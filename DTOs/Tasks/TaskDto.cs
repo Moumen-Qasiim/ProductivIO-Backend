@@ -1,4 +1,4 @@
-namespace ProductivIOBackend.DTOs.Tasks
+namespace ProductivIO.Backend.DTOs.Tasks
 {
     public class TaskDto
     {

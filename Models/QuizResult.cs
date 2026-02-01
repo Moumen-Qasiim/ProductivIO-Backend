@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using ProductivIOBackend.Models;
 
-namespace ProductivIOBackend.Models
+namespace ProductivIO.Backend.Models
 {
     public class QuizResult
     {

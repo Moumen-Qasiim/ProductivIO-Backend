@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ProductivIOBackend.Data;
+using ProductivIO.Backend.Data;
 
-namespace ProductivIOBackend.Extensions
+namespace ProductivIO.Backend.Extensions
 {
     public static class DatabaseExtensions
     {

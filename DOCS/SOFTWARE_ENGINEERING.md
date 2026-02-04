@@ -22,7 +22,7 @@ ProductivIO is a high-performance productivity ecosystem designed to help users 
 - **Maintainability**: Clean Architecture ensures low coupling and high cohesion.
 - **Type Safety**: Extensive use of enums and DTOs to minimize runtime errors.
 - **Reliability**: Comprehensive unit and integration test coverage.
-- **Security**: Data isolation per user and industry-standard JWT authentication.
+- **Security**: Data isolation per user and industry-standard authentication.
 
 ---
 

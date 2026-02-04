@@ -6,7 +6,7 @@ ProductivIO is a high-performance productivity ecosystem designed to help users 
 ## 2. Requirements
 
 ### 2.1 Functional Requirements
-- **Authentication & Security**: Secure user registration, login (JWT), and role-based access control. All data is scoped to the authenticated user.
+- **Authentication & Security**: Secure user registration, login , and role-based access control. All data is scoped to the authenticated user.
 - **Note Management**: Full CRUD operations for rich-text notes.
 - **Task & Habit Tracking**: 
   - Manage tasks with priorities (Low, Medium, High) and statuses (Todo, InProgress, Completed).

@@ -1,160 +1,88 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProductivIO.Backend.DTOs.Quiz;
-using ProductivIO.Backend.Services.Interfaces;
+using ProductivIO.Application.Services.Interfaces;
+using ProductivIO.Contracts.Requests.Quiz;
+using ProductivIO.Contracts.Responses.Quiz;
 using System.Security.Claims;
 
-namespace ProductivIO.Backend.Controllers
+namespace ProductivIO.Backend.Controllers;
+
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+public class QuizController : ControllerBase
 {
-    [Authorize]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class QuizController : ControllerBase
+    private readonly IQuizService _quizService;
+
+    public QuizController(IQuizService quizService)
     {
-        private readonly IQuizService _quizService;
+        _quizService = quizService;
+    }
 
-        public QuizController(IQuizService quizService)
-        {
-            _quizService = quizService;
-        }
+    private Guid GetUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null) return Guid.Empty;
+        return Guid.Parse(userIdClaim.Value);
+    }
 
-        private Guid GetUserId()
-        {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null) return Guid.Empty;
-            return Guid.Parse(userIdClaim.Value);
-        }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<QuizResponse>>> GetAll()
+    {
+        var userId = GetUserId();
+        return Ok(await _quizService.GetAllAsync(userId));
+    }
 
-        // --- Quizzes ---
-        // GET: /api/Quiz
-        [HttpGet]
-        public async Task<IActionResult> GetAllQuizzes()
-        {
-            var userId = GetUserId();
-            var quizzes = await _quizService.GetAllQuizzes(userId);
-            return Ok(quizzes);
-        }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<QuizResponse>> Get(Guid id)
+    {
+        var userId = GetUserId();
+        var quiz = await _quizService.GetByIdAsync(id, userId);
+        if (quiz == null) return NotFound();
+        return Ok(quiz);
+    }
 
-        // GET: /api/Quiz/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuiz(Guid id)
-        {
-            var userId = GetUserId();
-            var quiz = await _quizService.GetQuiz(id, userId);
-            if (quiz == null) return NotFound(new { message = "Quiz not found." });
-            return Ok(quiz);
-        }
+    [HttpPost]
+    public async Task<ActionResult<QuizResponse>> Create([FromBody] CreateQuizRequest request)
+    {
+        var userId = GetUserId();
+        var created = await _quizService.CreateAsync(request, userId);
+        return CreatedAtAction(nameof(Get), new { id = created?.Id }, created);
+    }
 
-        // POST: /api/Quiz
-        [HttpPost]
-        public async Task<IActionResult> AddQuiz([FromBody] CreateQuizDto quiz)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateQuizRequest request)
+    {
+        var userId = GetUserId();
+        var success = await _quizService.UpdateAsync(id, request, userId);
+        if (!success) return NotFound();
+        return NoContent();
+    }
 
-            var userId = GetUserId();
-            var created = await _quizService.AddQuiz(quiz, userId);
-            if (created == null) return BadRequest(new { message = "Failed to create quiz." });
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var userId = GetUserId();
+        var success = await _quizService.DeleteAsync(id, userId);
+        if (!success) return NotFound();
+        return NoContent();
+    }
 
-            return CreatedAtAction(nameof(GetQuiz), new { id = created.Id }, created);
-        }
+    [HttpPost("{id}/questions")]
+    public async Task<ActionResult<QuizQuestionResponse>> AddQuestion(Guid id, [FromBody] CreateQuizQuestionRequest request)
+    {
+        var userId = GetUserId();
+        var created = await _quizService.AddQuestionAsync(id, request, userId);
+        if (created == null) return NotFound();
+        return Ok(created);
+    }
 
-        // PUT: /api/Quiz/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQuiz(Guid id, [FromBody] UpdateQuizDto quiz)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userId = GetUserId();
-            var updated = await _quizService.UpdateQuiz(id, quiz, userId);
-            if (!updated) return NotFound(new { message = "Quiz not found or you don't have permission." });
-
-            return NoContent();
-        }
-
-        // DELETE: /api/Quiz/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuiz(Guid id)
-        {
-            var userId = GetUserId();
-            var deleted = await _quizService.DeleteQuiz(id, userId);
-            if (!deleted) return NotFound(new { message = "Quiz not found or you don't have permission." });
-
-            return NoContent();
-        }
-
-        // POST: /api/Quiz/{quizId}/questions
-        [HttpPost("{quizId}/questions")]
-        public async Task<IActionResult> AddQuestion(Guid quizId, [FromBody] CreateQuizQuestionDto question)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userId = GetUserId();
-            var created = await _quizService.AddQuestion(quizId, question, userId);
-            if (created == null) return BadRequest(new { message = "Failed to add question or quiz not found." });
-
-            return Ok(created);
-        }
-
-        // PUT: /api/Quiz/questions/{id}
-        [HttpPut("questions/{id}")]
-        public async Task<IActionResult> UpdateQuestion(Guid id, [FromBody] UpdateQuizQuestionDto question)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userId = GetUserId();
-            var updated = await _quizService.UpdateQuestion(id, question, userId);
-            if (!updated) return NotFound(new { message = "Question not found or you don't have permission." });
-
-            return NoContent();
-        }
-
-        // DELETE: /api/Quiz/questions/{questionId}
-        [HttpDelete("questions/{questionId}")]
-        public async Task<IActionResult> DeleteQuestion(Guid questionId)
-        {
-            var userId = GetUserId();
-            var deleted = await _quizService.DeleteQuestion(questionId, userId);
-            if (!deleted) return NotFound(new { message = "Question not found or you don't have permission." });
-
-            return NoContent();
-        }
-
-        // --- Answers ---
-        // POST: /api/Quiz/questions/{questionId}/answers
-        [HttpPost("questions/{questionId}/answers")]
-        public async Task<IActionResult> AddAnswer(Guid questionId, [FromBody] CreateQuizAnswerDto answer)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userId = GetUserId();
-            var created = await _quizService.AddAnswer(questionId, answer, userId);
-            if (created == null) return BadRequest(new { message = "Failed to add answer or question not found." });
-
-            return Ok(created);
-        }
-
-        // PUT: /api/Quiz/answers/{id}
-        [HttpPut("answers/{id}")]
-        public async Task<IActionResult> UpdateAnswer(Guid id, [FromBody] UpdateQuizAnswerDto answer)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var userId = GetUserId();
-            var updated = await _quizService.UpdateAnswer(id, answer, userId);
-            if (!updated) return NotFound(new { message = "Answer not found or you don't have permission." });
-
-            return NoContent();
-        }
-
-        // DELETE: /api/Quiz/answers/{answerId}
-        [HttpDelete("answers/{answerId}")]
-        public async Task<IActionResult> DeleteAnswer(Guid answerId)
-        {
-            var userId = GetUserId();
-            var deleted = await _quizService.DeleteAnswer(answerId, userId);
-            if (!deleted) return NotFound(new { message = "Answer not found or you don't have permission." });
-
-            return NoContent();
-        }
+    [HttpPost("submit")]
+    public async Task<ActionResult<QuizResultResponse>> Submit([FromBody] SubmitQuizResultRequest request)
+    {
+        var userId = GetUserId();
+        var result = await _quizService.SubmitResultAsync(request, userId);
+        if (result == null) return NotFound();
+        return Ok(result);
     }
 }

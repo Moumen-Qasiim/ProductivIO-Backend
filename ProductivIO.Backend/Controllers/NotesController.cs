@@ -1,91 +1,80 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProductivIO.Backend.DTOs.Notes;
-using ProductivIO.Backend.Services.Interfaces;
+using ProductivIO.Application.Services.Interfaces;
+using ProductivIO.Contracts.Requests.Notes;
+using ProductivIO.Contracts.Responses.Notes;
 using System.Security.Claims;
 
-namespace ProductivIO.Backend.Controllers
+namespace ProductivIO.Backend.Controllers;
+
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+public class NotesController : ControllerBase
 {
-    [Authorize]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class NotesController : ControllerBase
+    private readonly INoteService _noteService;
+
+    public NotesController(INoteService noteService)
     {
-        private readonly INoteService _noteService;
+        _noteService = noteService;
+    }
 
-        public NotesController(INoteService noteService)
-        {
-            _noteService = noteService;
-        }
+    private Guid GetUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null) return Guid.Empty;
+        return Guid.Parse(userIdClaim.Value);
+    }
 
-        private Guid GetUserId()
-        {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null) return Guid.Empty;
-            return Guid.Parse(userIdClaim.Value);
-        }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<NoteResponse>>> GetAll()
+    {
+        var userId = GetUserId();
+        var notes = await _noteService.GetAllAsync(userId);
+        return Ok(notes);
+    }
 
-        // GET: api/Notes
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var userId = GetUserId();
-            var notes = await _noteService.GetAll(userId);
-            return Ok(notes);
-        }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<NoteResponse>> Get(Guid id)
+    {
+        var userId = GetUserId();
+        var note = await _noteService.GetByIdAsync(id, userId);
+        if (note == null)
+            return NotFound(new { message = "Note not found." });
 
-        // GET: api/Notes/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var userId = GetUserId();
-            var note = await _noteService.Get(id, userId);
-            if (note == null)
-                return NotFound(new { message = "Note not found." });
+        return Ok(note);
+    }
 
-            return Ok(note);
-        }
+    [HttpPost]
+    public async Task<ActionResult<NoteResponse>> Create([FromBody] CreateNoteRequest request)
+    {
+        var userId = GetUserId();
+        var created = await _noteService.CreateAsync(request, userId);
+        if (created == null)
+            return BadRequest(new { message = "Could not create note." });
 
-        // POST: api/Notes
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateNoteDto note)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+    }
 
-            var userId = GetUserId();
-            var created = await _noteService.Create(note, userId);
-            if (created == null)
-                return BadRequest(new { message = "Could not create note." });
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateNoteRequest request)
+    {
+        var userId = GetUserId();
+        var success = await _noteService.UpdateAsync(id, request, userId);
+        if (!success)
+            return NotFound(new { message = "Note not found." });
 
-            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
-        }
+        return Ok(new { message = "Note updated successfully." });
+    }
 
-        // PUT: api/Notes/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateNoteDto note)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var userId = GetUserId();
+        var success = await _noteService.DeleteAsync(id, userId);
+        if (!success)
+            return NotFound(new { message = "Note not found." });
 
-            var userId = GetUserId();
-            var success = await _noteService.Update(id, note, userId);
-            if (!success)
-                return NotFound(new { message = "Note not found or you don't have permission to update it." });
-
-            return Ok(new { message = "Note updated successfully." });
-        }
-
-        // DELETE: api/Notes/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var userId = GetUserId();
-            var deleted = await _noteService.Delete(id, userId);
-            if (!deleted)
-                return NotFound(new { message = "Note not found or you don't have permission to delete it." });
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

@@ -1,78 +1,52 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProductivIO.Backend.DTOs.Auth;
-using ProductivIO.Backend.Services.Interfaces;
+using ProductivIO.Application.Services.Interfaces;
+using ProductivIO.Contracts.Requests.Auth;
+using ProductivIO.Contracts.Responses.Auth;
 
-namespace ProductivIO.Backend.Controllers
+namespace ProductivIO.Backend.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
     {
-        private readonly IAuthService _authService;
-        private readonly ILogger<AuthController> _logger;
+        _authService = authService;
+    }
 
-        public AuthController(IAuthService authService, ILogger<AuthController> logger)
-        {
-            _authService = authService;
-            _logger = logger;
-        }
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
+    {
+        var response = await _authService.LoginAsync(request);
+        if (!response.Success)
+            return Unauthorized(response);
 
-        // POST: api/Auth/login
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
-        {
-            _logger.LogInformation("Login attempt for email: {Email}", loginRequest.Email);
-            var result = await _authService.LoginAsync(loginRequest);
+        return Ok(response);
+    }
 
-            if (!result.Success)
-            {
-                _logger.LogWarning("Failed login attempt for email {Email}: {Message}", loginRequest.Email, result.Message);
-                return Unauthorized(new { success = false, message = result.Message });
-            }
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
+    {
+        var response = await _authService.RegisterAsync(request);
+        if (!response.Success)
+            return BadRequest(response);
 
-            _logger.LogInformation("User {Email} logged in successfully", loginRequest.Email);
-            return Ok(new { message = result.Message, user = result.User });
-        }
+        return Ok(response);
+    }
 
-        // POST: api/Auth/register
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
-        {
-            _logger.LogInformation("Register attempt for email: {Email}", registerRequest.Email);
-            var result = await _authService.RegisterUserAsync(registerRequest);
-            
-            if (!result.Success)
-            {
-                _logger.LogWarning("Failed register attempt for email {Email}: {Message}", registerRequest.Email, result.Message);
-                return BadRequest(result.Message);
-            }
-            
-            _logger.LogInformation("User {Email} registered successfully", registerRequest.Email);
-            return Ok(new { message = result.Message, user = result.User });
-        }
-        
-        // POST: api/Auth/logout
-        [Authorize]
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await _authService.LogoutAsync();
-            _logger.LogInformation("User logged out.");
-            return Ok(new { message = "Logged out successfully" });
-        }
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<ActionResult<UserResponse>> GetCurrentUser()
+    {
+        var user = await _authService.GetCurrentUserAsync(User);
+        if (user == null)
+            return NotFound();
 
-        // GET: api/Auth/validate
-        [Authorize] 
-        [HttpGet("validate")]
-        public async Task<IActionResult> Validate()
-        {
-            var user = await _authService.GetCurrentUserAsync(User);
-            if (user == null) return Unauthorized();
-            
-            return Ok(new { valid = true, user });
-        }
+        return Ok(user);
     }
 }

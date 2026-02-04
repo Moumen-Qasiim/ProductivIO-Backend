@@ -27,4 +27,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductivIO.Application\ProductivIO.Application.csproj" />
+    <ProjectReference Include="..\ProductivIO.Infrastructure\ProductivIO.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProductivIO.Contracts\ProductivIO.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

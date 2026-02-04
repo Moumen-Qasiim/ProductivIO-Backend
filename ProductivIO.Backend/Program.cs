@@ -1,14 +1,14 @@
 using DotNetEnv;
 using FluentValidation;
-using ProductivIO.Backend.Data;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
 using ProductivIO.Backend.Extensions;
-using ProductivIO.Backend.Validations;
+using ProductivIO.Application.Validations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-
-
+using ProductivIO.Application;
+using ProductivIO.Infrastructure;
+using ProductivIO.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,12 +31,11 @@ builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
 builder.Services.AddEndpointsApiExplorer();
 
 // Modularized Config
-builder.Services.AddAppDatabase(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment.IsEnvironment("Testing"));
+builder.Services.AddApplication();
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddDevCors();
-builder.Services.AddRepositories();
-builder.Services.AddAppServices();
 
 builder.Services.AddAuthorization();
 
@@ -61,11 +60,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.EnvironmentName != "Testing")
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    if (db.Database.IsRelational())
+    {
+        db.Database.Migrate();
+    }
 }
 
-
 app.Run();
+
+public partial class Program{}

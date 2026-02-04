@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using ProductivIO.Backend.Data;
-using ProductivIO.Backend.Models;
+using ProductivIO.Infrastructure.Data;
+using ProductivIO.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace ProductivIO.Backend.Extensions
 {
@@ -22,6 +24,20 @@ namespace ProductivIO.Backend.Extensions
             .AddRoleManager<RoleManager<UserRole>>()
             .AddUserManager<UserManager<User>>()
             .AddDefaultTokenProviders();
+            
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status401Unauthorized;
+                    return System.Threading.Tasks.Task.CompletedTask;
+                };
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status403Forbidden;
+                    return System.Threading.Tasks.Task.CompletedTask;
+                };
+            });
 
             return services;
         }
